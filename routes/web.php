@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -22,10 +23,15 @@ Route::get('/', function () {
     ]);
 });
 
-//using a Wildcard parameter in the URI
-Route::get('posts/{post}', function ($id) { //fetch slug 'my-first-post"
-    //Find a post by its slug, and pass it to a view called 'post'
-    return view('post', [ //return 'post'; 'post' equals the Post class and findOrFail method, with the passed in parameter
-        'post' => Post::findOrFail($id)
+//take in Wildcard param from URI,
+Route::get('posts/{post:slug}', function (Post $post) {//thanks to Eloquent, {post} & $post are binded in the Post model
+    return view('post', [
+        'post' => $post
+    ]);
+});
+
+Route::get('categories/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts
     ]);
 });
