@@ -29,7 +29,8 @@ class Post
     }
 
     public static function all() {
-        return collect(File::files(resource_path("posts"))) //known as a 'collection'
+        return cache()->rememberForever('posts.all', function() {
+            return collect(File::files(resource_path("posts"))) //known as a 'collection'
             ->map(function ($file) { //most methods; filter, each, etc. can be used in a collection.
                 $document = YamlFrontMatter::parseFile($file); //$document is assigned this parsed data
 
@@ -40,7 +41,9 @@ class Post
                     $document->body(),
                     $document->slug
                 );
-            });
+            })
+            ->sortByDesc('date');
+        });
     }
 
 
