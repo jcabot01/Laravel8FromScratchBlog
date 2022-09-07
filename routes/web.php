@@ -25,9 +25,7 @@ Route::get('/', function () {
 //using a Wildcard parameter in the URI
 Route::get('posts/{post}', function ($slug) { //fetch slug 'my-first-post"
     //Find a post by its slug, and pass it to a view called 'post'
-
-    return view('post', [ //return key => value
-        'post' => Post::find($slug)
+    return view('post', [ //return 'post'; 'post' equals the Post class and findOrFail method, with the passed in parameter
+        'post' => Post::findOrFail($slug)
     ]);
-
-})-> where('post', '[A-z_\-]+');
+});
