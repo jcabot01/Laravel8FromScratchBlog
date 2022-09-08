@@ -19,6 +19,11 @@ class Post extends Model
         //Eloquent relationship
         return $this->belongsTo(Category::class);
     }
+
+    public function user() {
+        //Eloquent relationship
+        return $this->belongsTo(User::class);
+    }
 }
 
 //Post::create(['title' => 'My Hobby Post', 'excerpt' => 'Excerpt for hobby', 'body' => 'Body of hobby post', 'slug' => 'my-hobby-post', 'category_id' => 3]);

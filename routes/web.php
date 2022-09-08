@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\File;
 
 Route::get('/', function () {
     return view('posts', [
-        "posts" => Post::all() //fetch all files in Posts directory
+        "posts" => Post::with('category')->get() //fetch all files in Posts directory
     ]);
 });
 
