@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\File;
 
 Route::get('/', function () {
     return view('posts', [          //with method prevents lazyLoad N+1 problem.  One query for all, rather than a query for each instance
-        "posts" => Post::latest()->with('category', 'author')->get() //fetch all files in Posts directory, latest post at the top
+        //"posts" => Post::latest()->with('category', 'author')->get() //fetch all files in Posts directory, latest post at the top
+        "posts" => Post::latest()->get() //move 'with' into Post model to always append category and author to Post object.  Known as 'eager loading'
     ]);
 });
 
@@ -40,6 +41,6 @@ Route::get('categories/{category:slug}', function (Category $category) {
 //'authors/{author}'  would give us Id, below gives us username param
 Route::get('authors/{author:username}', function (User $author) {
     return view('posts', [ //load a view; the posts.php
-        'posts' => $author->posts //load posts written by author
+        'posts' => $author->posts
     ]);
 });

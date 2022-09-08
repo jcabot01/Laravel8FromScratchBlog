@@ -14,6 +14,8 @@ class Post extends Model
     //can use $guarded as well, which will only protect that field
     protected $guarded = [];
 
+    protected $with = ['category', 'author'];  //always append category and author data to post object
+    //known as 'eager loading' by default
 
     public function category() {
         //Eloquent relationship
