@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('posts', [          //with method prevents lazyLoad N+1 problem.  One query for all, rather than a query for each instance
         //"posts" => Post::latest()->with('category', 'author')->get() //fetch all files in Posts directory, latest post at the top
         "posts" => Post::latest()->get() //move 'with' into Post model to always append category and author to Post object.  Known as 'eager loading'
-    ]);
+    ]); //posts is a collection of posts
 });
 
 //take in Wildcard param from URI,
