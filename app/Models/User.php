@@ -11,7 +11,7 @@ use App\Models\Post;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable; //automatically import faker HasFactory
     /**
      * The attributes that are mass assignable.
      *

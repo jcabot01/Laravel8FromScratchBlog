@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory; //Post::factory() but no Post factories exist
 
     // same as params.permit in RoR; protects against mass assignment vulnerability
     // protected $fillable = ['title', 'excerpt', 'body'];
@@ -20,9 +20,9 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function user() {
+    public function author() {
         //Eloquent relationship
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id'); //reference user_id from DB
     }
 }
 
