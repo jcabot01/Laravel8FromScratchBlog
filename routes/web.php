@@ -29,19 +29,22 @@ Route::get('/', function () {
 //take in Wildcard param from URI,
 Route::get('posts/{post:slug}', function (Post $post) {//thanks to Eloquent, {post} & $post are binded in the Post model
     return view('post', [ //load a view; the post.php file
-        'post' => $post //send $post instance
+        'post' => $post //send post variable, containing $post instance
     ]);
 });
 
 Route::get('categories/{category:slug}', function (Category $category) {
     return view('posts', [ //load a view; the posts.php
-        'posts' => $category->posts
+        'posts' => $category->posts,  //variables derived from associations, passed to view
+        'currentCategory' => $category,
+        "categories" => Category::all()
     ]);
 });
 
 //'authors/{author}'  would give us Id, below gives us username param
 Route::get('authors/{author:username}', function (User $author) {
     return view('posts', [ //load a view; the posts.php
-        'posts' => $author->posts
+        'posts' => $author->posts,
+        "categories" => Category::all()
     ]);
 });
