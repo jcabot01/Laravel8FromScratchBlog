@@ -26,18 +26,9 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 //take in Wildcard param from URI,
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
-Route::get('categories/{category:slug}', function (Category $category) {
-    return view('posts', [ //load a view; the posts.php
-        'posts' => $category->posts,  //variables derived from associations, passed to view
-        'currentCategory' => $category,
-        "categories" => Category::all()
-    ]);
-})->name('category');
-
 //'authors/{author}'  would give us Id, below gives us username param
-Route::get('authors/{author:username}', function (User $author) {
-    return view('posts', [ //load a view; the posts.php
-        'posts' => $author->posts,
-        "categories" => Category::all()
-    ]);
-});
+// Route::get('authors/{author:username}', function (User $author) {
+//     return view('posts', [ //load a view; the posts.php
+//         'posts' => $author->posts
+//     ]);
+// });

@@ -19,11 +19,19 @@ class Post extends Model
 
     public function scopeFilter($query, array $filters)  //Post::newQuery()->filter()
     {
-        if ($filters['search'] ?? false) {
+        $query->when($filters['search'] ?? false, fn($query, $search) =>
             $query
-                ->where('title', 'like', '%' . request('search') . '%')
-                ->where('body', 'like', '%' . request('search') . '%');
-        }
+                ->where('title', 'like', '%' . $search . '%')
+                ->where('body', 'like', '%' . $search . '%')
+        );
+
+
+        $query->when($filters['category'] ?? false, fn($query, $category) =>
+            $query->whereHas('category', fn ($query) => //give me the posts that have the category slug that matches the input
+                $query->where('slug', $category)
+            )
+        );
+
     }
 
 
