@@ -24,7 +24,7 @@ Route::get('/', function () {
         "posts" => Post::latest()->get(), //move 'with' into Post model to always append category and author to Post object.  Known as 'eager loading'
         "categories" => Category::all() //set "categories" as key, containing all instances of categories.  Categories is now $categories in the posts view
     ]); //posts is a collection of posts
-});
+})->name('home');
 
 //take in Wildcard param from URI,
 Route::get('posts/{post:slug}', function (Post $post) {//thanks to Eloquent, {post} & $post are binded in the Post model
@@ -39,7 +39,7 @@ Route::get('categories/{category:slug}', function (Category $category) {
         'currentCategory' => $category,
         "categories" => Category::all()
     ]);
-});
+})->name('category');
 
 //'authors/{author}'  would give us Id, below gives us username param
 Route::get('authors/{author:username}', function (User $author) {
