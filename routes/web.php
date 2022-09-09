@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -18,20 +20,11 @@ use Illuminate\Support\Facades\File;
 |
 */
 
-Route::get('/', function () {
-    return view('posts', [          //with method prevents lazyLoad N+1 problem.  One query for all, rather than a query for each instance
-        //"posts" => Post::latest()->with('category', 'author')->get() //fetch all files in Posts directory, latest post at the top
-        "posts" => Post::latest()->get(), //move 'with' into Post model to always append category and author to Post object.  Known as 'eager loading'
-        "categories" => Category::all() //set "categories" as key, containing all instances of categories.  Categories is now $categories in the posts view
-    ]); //posts is a collection of posts
-})->name('home');
+//route, route method, '/path', [controllerName, controllerMethod], -> route name
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 //take in Wildcard param from URI,
-Route::get('posts/{post:slug}', function (Post $post) {//thanks to Eloquent, {post} & $post are binded in the Post model
-    return view('post', [ //load a view; the post.php file
-        'post' => $post //send post variable, containing $post instance
-    ]);
-});
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 Route::get('categories/{category:slug}', function (Category $category) {
     return view('posts', [ //load a view; the posts.php

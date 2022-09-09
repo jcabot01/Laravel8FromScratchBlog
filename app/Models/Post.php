@@ -17,12 +17,25 @@ class Post extends Model
     protected $with = ['category', 'author'];  //always append category and author data to post object
     //known as 'eager loading' by default
 
-    public function category() {
+    public function scopeFilter($query, array $filters)  //Post::newQuery()->filter()
+    {
+        if ($filters['search'] ?? false) {
+            $query
+                ->where('title', 'like', '%' . request('search') . '%')
+                ->where('body', 'like', '%' . request('search') . '%');
+        }
+    }
+
+
+    public function category()
+    {
         //Eloquent relationship
         return $this->belongsTo(Category::class);
     }
 
-    public function author() {
+
+    public function author()
+    {
         //Eloquent relationship
         return $this->belongsTo(User::class, 'user_id'); //reference user_id from DB
     }
