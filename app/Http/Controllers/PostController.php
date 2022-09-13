@@ -11,7 +11,9 @@ class PostController extends Controller
     public function index()
     {
         return view('posts.index', [          //with method prevents lazyLoad N+1 problem.  One query for all, rather than a query for each instance
-            "posts" => Post::latest()->filter(request(['search', 'category', 'author']))->get()
+            "posts" => Post::latest()->filter(
+                request(['search', 'category', 'author'])
+            )->paginate(6)->withQueryString()
         ]); //posts is a collection of posts
     }
 
